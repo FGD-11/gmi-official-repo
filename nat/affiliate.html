@@ -1,0 +1,172 @@
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Affiliate Saya</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <link rel="stylesheet" href="tailwind/index.css">
+  <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyDCt1DuzTaHaVekghka98_rAO6tU8iLhKQ",
+        authDomain: "gmi-enterprise080625.firebaseapp.com",
+        projectId: "gmi-enterprise080625",
+        storageBucket: "gmi-enterprise080625.firebasestorage.app",
+        messagingSenderId: "740806922771",
+        appId: "1:740806922771:web:7245637b3bf1d916a925e6",
+        measurementId: "G-5ZZZMH79V9"
+        };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body class="bg-white p-6 min-h-screen flex flex-col items-center">
+  <div class="w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-6 text-center">Program Affiliate Anda</h1>
+
+    <div id="content" class="space-y-5 bg-gray-50 border border-gray-200 rounded-lg p-6 shadow-sm">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+        <strong class="text-gray-700">Link Referral Anda:</strong>
+        <a
+          id="referralLink"
+          class="text-blue-600 underline break-all mt-1 sm:mt-0"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="#"
+          >Loading...</a
+        >
+      </div>
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+        <strong class="text-gray-700">Total Klik:</strong>
+        <span id="totalClicks" class="text-gray-900 font-semibold mt-1 sm:mt-0">0</span>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+        <strong class="text-gray-700">Total Komisi:</strong>
+        <span id="totalKomisi" class="text-gray-900 font-semibold mt-1 sm:mt-0">Rp 0</span>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+        <strong class="text-gray-700">Status:</strong>
+        <span id="statusUser" class="font-bold mt-1 sm:mt-0 text-green-600">Loading...</span>
+      </div>
+    </div>
+
+    <div
+      id="activationSection"
+      class="mt-8 border-t pt-6 hidden bg-gray-50 border border-gray-200 rounded-lg p-6 shadow-sm"
+    >
+      <h2 class="text-lg font-semibold mb-4 text-center">Aktifkan Program Affiliate</h2>
+      <input
+        id="referralCodeInput"
+        type="text"
+        placeholder="Kode Referral (opsional)"
+        class="border border-gray-300 p-3 w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        autocomplete="off"
+      />
+      <button
+        onclick="activateAffiliate()"
+        class="mt-4 w-full bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-3 rounded-md flex justify-center items-center"
+        aria-label="Aktifkan Affiliate"
+      >
+        <i class="fas fa-check-circle mr-2"></i> Aktifkan Affiliate
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const db = firebase.firestore();
+
+    firebase.auth().onAuthStateChanged(async (user) => {
+      if (!user) {
+        alert("Silakan login terlebih dahulu.");
+        return;
+      }
+
+      const userRef = db.collection("users").doc(user.uid);
+      const userDoc = await userRef.get();
+      const userData = userDoc.data();
+
+      if (!userData || !userData.isAffiliate) {
+        // Tampilkan form aktivasi
+        document.getElementById("activationSection").classList.remove("hidden");
+        document.getElementById("content").innerHTML = `
+          <p class="text-red-600 font-semibold text-center">
+            Anda belum terdaftar sebagai affiliate.
+          </p>
+        `;
+        return;
+      }
+
+      // Tampilkan referral
+      const referralLink = `${location.origin}/informasi.html?ref=${user.uid}`;
+      const referralLinkEl = document.getElementById("referralLink");
+      referralLinkEl.textContent = referralLink;
+      referralLinkEl.href = referralLink;
+
+      // Statistik klik & komisi
+      const commissions = await db
+        .collection("commissions")
+        .where("userId", "==", user.uid)
+        .get();
+      let total = 0,
+        clicks = 0;
+      commissions.forEach((doc) => {
+        total += doc.data().amount || 0;
+        clicks += doc.data().clicks || 0;
+      });
+
+      document.getElementById("totalClicks").textContent = clicks;
+      document.getElementById("totalKomisi").textContent = `Rp ${total.toLocaleString(
+        "id-ID"
+      )}`;
+      const statusUserEl = document.getElementById("statusUser");
+      statusUserEl.textContent = userData.isActiveAffiliate ? "Aktif" : "Non-Aktif";
+      statusUserEl.className = userData.isActiveAffiliate
+        ? "text-green-600 font-bold"
+        : "text-gray-500 font-bold";
+    });
+
+    async function activateAffiliate() {
+      const user = firebase.auth().currentUser;
+      if (!user) return alert("Silakan login terlebih dahulu.");
+
+      const referralCode = document.getElementById("referralCodeInput").value.trim();
+      const userRef = db.collection("users").doc(user.uid);
+
+      try {
+        // Tambahkan poin awal
+        await userRef.set(
+          {
+            isAffiliate: true,
+            isActiveAffiliate: true,
+            referrer: referralCode || null,
+            point: 100,
+          },
+          { merge: true }
+        );
+
+        // Tambahkan poin ke referrer jika ada
+        if (referralCode) {
+          const refDoc = await db.collection("users").doc(referralCode).get();
+          if (refDoc.exists) {
+            const currentPoint = refDoc.data().point || 0;
+            await db.collection("users").doc(referralCode).update({
+              point: currentPoint + 50,
+            });
+          }
+        }
+
+        alert("Affiliate berhasil diaktifkan! Anda mendapatkan 100 poin.");
+        location.reload();
+      } catch (error) {
+        alert("Terjadi kesalahan saat mengaktifkan affiliate. Silakan coba lagi.");
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
