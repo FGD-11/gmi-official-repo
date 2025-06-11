@@ -1,0 +1,97 @@
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Informasi Pelatihan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="tailwind/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    /* Hide scrollbar but keep scroll functionality */
+    #cardContainer::-webkit-scrollbar {
+      display: none;
+    }
+    #cardContainer {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+  </style>
+</head>
+<body class="p-4 bg-gray-50 min-h-screen">
+  <div id="cardContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto overflow-auto"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyDCt1DuzTaHaVekghka98_rAO6tU8iLhKQ",
+        authDomain: "gmi-enterprise080625.firebaseapp.com",
+        projectId: "gmi-enterprise080625",
+        storageBucket: "gmi-enterprise080625.firebasestorage.app",
+        messagingSenderId: "740806922771",
+        appId: "1:740806922771:web:7245637b3bf1d916a925e6",
+        measurementId: "G-5ZZZMH79V9"
+        };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const container = document.getElementById('cardContainer');
+
+    db.collection('trainings').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+      container.innerHTML = '';
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-lg shadow-md overflow-hidden flex flex-col';
+        card.innerHTML = `
+          <img src="${data.imageUrl}" alt="Gambar pelatihan ${data.judul}, menampilkan ilustrasi terkait topik pelatihan" class="w-full h-auto object-contain" />
+          <div class="p-5 flex flex-col flex-grow">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-2">${data.judul}</h2>
+            <p class="text-gray-700 flex-grow">${data.deskripsi}</p>
+            <p class="text-green-600 font-bold mt-4 text-lg">Harga: ${data.harga}</p>
+          </div>
+          <div class="p-4 border-t flex justify-between bg-gray-50">
+            <button onclick="window.open('https://wa.me/6281234567890?text=Saya%20ingin%20daftar%20${encodeURIComponent(data.judul)}')" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 transition text-white px-4 py-2 rounded-md font-semibold">
+              <i class="fab fa-whatsapp"></i> Daftar Pelatihan
+            </button>
+            <button onclick="if(navigator.share){navigator.share({ title: '${data.judul}', text: '${data.copywriting}', url: window.location.href }).catch(()=>{});} else {alert('Fitur share tidak didukung di browser ini.');}" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-md font-semibold">
+              <i class="fas fa-share-alt"></i> Share
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const ref = urlParams.get('ref');
+
+  if (ref) {
+    const db = firebase.firestore();
+    
+    // Cek apakah user yang memberikan ref adalah affiliate
+    db.collection('users').doc(ref).get().then(doc => {
+      if (doc.exists && doc.data().isAffiliate === true) {
+        // Hanya affiliate yang boleh dapat klik
+        const now = new Date();
+        const docId = `${ref}_${now.getTime()}`; // ID unik berdasarkan waktu
+
+        db.collection('commissions').doc(docId).set({
+          userId: ref,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          amount: 0,     // awalnya 0, bisa naik jika ada pembelian
+          clicks: 1,
+          source: document.referrer || 'direct'
+        }).then(() => {
+          console.log("Klik referral berhasil dicatat.");
+        }).catch(err => {
+          console.error("Gagal menyimpan komisi:", err);
+        });
+      } else {
+        console.log("User bukan affiliate. Klik tidak dihitung.");
+      }
+    });
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Token Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <link rel="stylesheet" href="tailwind/index.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">Login Admin</h2>
+    <input
+      id="tokenInput"
+      type="text"
+      placeholder="Masukkan token acak"
+      class="w-full p-3 border border-gray-300 rounded-md mb-6 focus:outline-none focus:ring-2 focus:ring-blue-600"
+      autocomplete="off"
+      aria-label="Masukkan token acak"
+    />
+    <button
+      onclick="cekToken()"
+      class="w-full bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-3 rounded-md flex justify-center items-center gap-2"
+      aria-label="Login dengan token"
+    >
+      <i class="fas fa-sign-in-alt"></i> Login
+    </button>
+    <p class="text-center text-sm text-gray-500 mt-5">
+      Token berlaku 3 jam sejak dibuat
+    </p>
+  </div>
+
+  <script>
+    // Konfigurasi Firebase Anda
+      const firebaseConfig = {
+        apiKey: "AIzaSyDCt1DuzTaHaVekghka98_rAO6tU8iLhKQ",
+        authDomain: "gmi-enterprise080625.firebaseapp.com",
+        projectId: "gmi-enterprise080625",
+        storageBucket: "gmi-enterprise080625.firebasestorage.app",
+        messagingSenderId: "740806922771",
+        appId: "1:740806922771:web:7245637b3bf1d916a925e6",
+        measurementId: "G-5ZZZMH79V9"
+        };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    async function cekToken() {
+      const token = document.getElementById("tokenInput").value.trim();
+      if (!token) {
+        Swal.fire("Kosong", "Silakan masukkan token!", "warning");
+        return;
+      }
+
+      try {
+        const tokenDoc = await db.collection("adminTokens").doc(token).get();
+        if (!tokenDoc.exists) {
+          Swal.fire("Gagal", "Token tidak valid!", "error");
+          return;
+        }
+
+        const createdAt = tokenDoc.data().createdAt.toDate();
+        const now = new Date();
+        const diffMs = now - createdAt;
+        const diffHours = diffMs / (1000 * 60 * 60);
+
+        if (diffHours > 3) {
+          Swal.fire("Kadaluarsa", "Token ini sudah lebih dari 3 jam.", "error");
+        } else {
+          sessionStorage.setItem("adminToken", token);
+          sessionStorage.setItem("tokenTimestamp", Date.now());
+          Swal.fire("Sukses", "Token valid, masuk ke halaman admin!", "success").then(() => {
+            window.location.href = "administrator.html";
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        Swal.fire("Error", "Terjadi kesalahan saat memverifikasi token", "error");
+      }
+    }
+  </script>
+</body>
+</html>
