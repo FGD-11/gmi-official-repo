@@ -1,373 +1,713 @@
 <html lang="id" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8" />
-  <title>Form Pendaftaran Wizard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="tailwind/index.css">
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-    rel="stylesheet"
-  />
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-  </style>
-</head>
-<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-center px-4 py-10">
-  <main class="bg-white w-full max-w-md rounded-lg shadow-md p-8">
-  <a href="login.html"></a>
-    <form id="registerForm" class="space-y-6" novalidate>
-      <!-- Step 1 -->
-      <section data-step="1" class="step-section">
-        <div>
-          <label for="fullName" class="block text-gray-700 font-semibold mb-1">Nama Lengkap</label>
-          <input
-            type="text"
-            id="fullName"
-            placeholder="Pastikan gunakan nama asli"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="name"
-          />
-        </div>
-        <div>
-          <label for="email" class="block text-gray-700 font-semibold mb-1">Email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Masukkan email aktif anda"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="email"
-          />
-        </div>
-        <div>
-          <label for="password" class="block text-gray-700 font-semibold mb-1">Kata Sandi</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Kata sandi"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="new-password"
-          />
-          <p class="mt-1 text-sm text-red-600 font-semibold">
-            <i class="fas fa-exclamation-circle mr-1"></i> Jangan gunakan kata sandi yang sama dengan akun email dan sosmed
-          </p>
-        </div>
-        <div>
-          <label for="whatsapp" class="block text-gray-700 font-semibold mb-1">WhatsApp</label>
-          <input
-            type="text"
-            id="whatsapp"
-            placeholder="Contoh: 08xx - xxxx - xxxx"
-            required
-            pattern="^0\d{8,15}$"
-            title="Masukkan nomor WhatsApp dengan format 08xx - xxxx - xxxx"
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="tel"
-          />
-        </div>
-      </section>
-
-      <!-- Step 2 -->
-      <section data-step="2" class="step-section hidden">
-        <div>
-          <label for="desa" class="block text-gray-700 font-semibold mb-1">Desa/Perumahan</label>
-          <input
-            type="text"
-            id="desa"
-            placeholder="Desa atau Perumahan"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="address-level3"
-          />
-        </div>
-        <div>
-          <label for="kecamatan" class="block text-gray-700 font-semibold mb-1">Kecamatan</label>
-          <input
-            type="text"
-            id="kecamatan"
-            placeholder="Kecamatan"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="address-level2"
-          />
-        </div>
-        <div>
-          <label for="kabupaten" class="block text-gray-700 font-semibold mb-1">Kabupaten</label>
-          <input
-            type="text"
-            id="kabupaten"
-            placeholder="Kabupaten"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="address-level1"
-          />
-        </div>
-        <div>
-          <label for="provinsi" class="block text-gray-700 font-semibold mb-1">Provinsi</label>
-          <input
-            type="text"
-            id="provinsi"
-            placeholder="Provinsi"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="region"
-          />
-        </div>
-      </section>
-
-      <!-- Step 3 -->
-      <section data-step="3" class="step-section hidden">
-        <div>
-          <label for="referralInput" class="block text-gray-700 font-semibold mb-1">Kode Referral</label>
-          <input
-            type="text"
-            id="referralInput"
-            placeholder="Opsional"
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-            autocomplete="off"
-          />
-          <p class="mt-1 text-sm text-green-600 font-semibold flex items-center">
-            <i class="fas fa-info-circle mr-1"></i> Jika anda memasukkan kode referral milik kerabat anda akan mendapatkan 100 point
-          </p>
-        </div>
-        <div class="flex items-center mt-6">
-          <input
-            type="checkbox"
-            id="termsCheck"
-            required
-            class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
-          />
-          <label for="termsCheck" class="ml-3 text-gray-700 font-semibold select-none cursor-pointer">
-            Anda siap mematuhi persyaratan layanan ini
-          </label>
-        </div>
-      </section>
-
-      <!-- Navigation Buttons -->
-      <div class="flex justify-between mt-8">
-        <button
-          type="button"
-          id="prevBtn"
-          class="bg-gray-300 text-gray-700 font-semibold py-2 px-5 rounded-md hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled
+  <head>
+    <meta charset="UTF-8" />
+    <title>Form Pendaftaran Wizard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .step-section {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(100%);
+        transition: transform 0.5s ease, opacity 0.5s ease;
+      }
+      .step-section.active {
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+        transform: translateX(0);
+      }
+      .step-section.slide-out-left {
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+      }
+      .step-section.slide-in-right {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+      }
+      .step-section.slide-out-right {
+        transform: translateX(100%);
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+      }
+      .step-section.slide-in-left {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 min-h-screen flex flex-col items-center justify-center px-4 py-10 relative"
+  >
+    <main
+      class="bg-white w-full max-w-md rounded-lg shadow-md p-8 relative overflow-hidden min-h-[520px]"
+      style=""
+    >
+      <a href="login.html"></a>
+      <form id="registerForm" class="space-y-6 relative" novalidate="">
+        <!-- Step 1 -->
+        <section
+          data-step="1"
+          class="step-section"
+          style="position: absolute; opacity: 0; transform: translateX(100%)"
         >
-          Sebelumnya
-        </button>
-        <button
-          type="button"
-          id="nextBtn"
-          class="bg-green-600 text-white font-semibold py-2 px-5 rounded-md hover:bg-green-700 transition"
-        >
-          Selanjutnya
-        </button>
-        <button
-          type="submit"
-          id="submitBtn"
-          class="bg-green-600 text-white font-semibold py-2 px-5 rounded-md hover:bg-green-700 transition hidden"
-        >
-          Daftar Sekarang
-        </button>
-      </div>
-    </form>
-  </main>
-  <footer class="w-full max-w-md mt-6 text-center text-gray-700 font-semibold">
-    <a href="login.html" class="text-green-600 hover:underline">Sudah punya Akun? login disini.</a>
-  </footer>
+          <div>
+            <center>
+              <p style="color: green"><b>REMINDER!</b></p>
+            </center>
+            <br />
+            <p align="justify" style="color: green">
+              Pastikan sebelum mendaftar ke Platform ini selalu catat biodata
+              anda dengan baik, dan
+              <b
+                >Dilarang Mencantumkan Kata sandi akun yang sama dengan Kata
+                sandi Akun Media yang lain!</b
+              >
+            </p>
+          </div>
+        </section>
 
-  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-  <script>
-    window.plugins = window.plugins || {};
-    document.addEventListener('deviceready', function () {
-      window.plugins.OneSignal.setAppId('7993ca4b-6759-4305-9cfd-84c29cf04a59'); // ganti dengan App ID kamu
-    }, false);
-  </script>
+        <!-- Step 2 -->
+        <section
+          data-step="2"
+          class="step-section"
+          style="position: absolute; opacity: 0; transform: translateX(100%)"
+        >
+          <div>
+            <label
+              for="fullName"
+              class="block text-gray-700 font-semibold mb-1"
+              >Nama Lengkap</label
+            >
+            <input
+              type="text"
+              id="fullName"
+              placeholder="Pastikan gunakan nama asli"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="name"
+            />
+          </div>
+          <div>
+            <label
+              for="email"
+              class="block text-gray-700 font-semibold mb-1"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              placeholder="Masukkan email aktif anda"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="email"
+            />
+          </div>
+          <div>
+            <label
+              for="password"
+              class="block text-gray-700 font-semibold mb-1"
+              >Kata Sandi</label
+            >
+            <input
+              type="password"
+              id="password"
+              placeholder="Kata sandi"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="new-password"
+            />
+            <p class="mt-1 text-sm text-red-600 font-semibold">
+              <i class="fas fa-exclamation-circle mr-1"></i> Jangan gunakan kata
+              sandi yang sama dengan akun email dan sosmed
+            </p>
+          </div>
+          <div>
+            <label
+              for="whatsapp"
+              class="block text-gray-700 font-semibold mb-1"
+              >WhatsApp</label
+            >
+            <input
+              type="text"
+              id="whatsapp"
+              placeholder="Contoh: 08xx - xxxx - xxxx"
+              required=""
+              pattern="^0\d{8,15}$"
+              title="Masukkan nomor WhatsApp dengan format 08xx - xxxx - xxxx"
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="tel"
+            />
+          </div>
+        </section>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDocs,
-      updateDoc,
-      collection,
-      query,
-      where,
-    } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+        <!-- Step 3 -->
+        <section
+          data-step="3"
+          class="step-section"
+          style="position: absolute; opacity: 0; transform: translateX(100%)"
+        >
+          <div>
+            <label
+              for="desa"
+              class="block text-gray-700 font-semibold mb-1"
+              >Desa/Perumahan</label
+            >
+            <input
+              type="text"
+              id="desa"
+              placeholder="Desa atau Perumahan"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="address-level3"
+            />
+          </div>
+          <div>
+            <label
+              for="kecamatan"
+              class="block text-gray-700 font-semibold mb-1"
+              >Kecamatan</label
+            >
+            <input
+              type="text"
+              id="kecamatan"
+              placeholder="Kecamatan"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="address-level2"
+            />
+          </div>
+          <div>
+            <label
+              for="kabupaten"
+              class="block text-gray-700 font-semibold mb-1"
+              >Kabupaten</label
+            >
+            <input
+              type="text"
+              id="kabupaten"
+              placeholder="Kabupaten"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="address-level1"
+            />
+          </div>
+          <div>
+            <label
+              for="provinsi"
+              class="block text-gray-700 font-semibold mb-1"
+              >Provinsi</label
+            >
+            <input
+              type="text"
+              id="provinsi"
+              placeholder="Provinsi"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="region"
+            />
+          </div>
+        </section>
+
+        <!-- Step 4 -->
+        <section
+          data-step="4"
+          class="step-section active"
+          style="position: relative; opacity: 1; transform: translateX(0px)"
+        >
+          <div>
+            <label
+              for="otpCode"
+              class="block text-gray-700 font-semibold mb-1"
+            >
+              Kode OTP
+            </label>
+            <input
+              type="text"
+              id="otpCode"
+              placeholder="Masukkan kode OTP dari email"
+              required=""
+              pattern="^\d{6}$"
+              title="OTP harus 6 digit angka"
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+            />
+            <p class="mt-1 text-sm text-green-600 font-semibold">
+              <i class="fas fa-info-circle mr-1"></i> Kode ini dikirim oleh
+              admin ke email Anda.
+            </p>
+          </div>
+          <div class="mt-6 flex justify-center">
+            <button
+              type="button"
+              id="requestOtpBtn"
+              class="bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-700 transition"
+            >
+              Minta Kode OTP
+            </button>
+          </div>
+        </section>
+
+        <!-- Step 5 -->
+        <section
+          data-step="5"
+          class="step-section"
+          style="position: absolute; opacity: 0; transform: translateX(100%)"
+        >
+          <div>
+            <label
+              for="referralInput"
+              class="block text-gray-700 font-semibold mb-1"
+              >Kode Referral</label
+            >
+            <input
+              type="text"
+              id="referralInput"
+              placeholder="Opsional"
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="off"
+            />
+            <p
+              class="mt-1 text-sm text-green-600 font-semibold flex items-center"
+            >
+              <i class="fas fa-info-circle mr-1"></i> Jika anda memasukkan kode
+              referral milik kerabat anda akan mendapatkan 100 point
+            </p>
+          </div>
+          <div class="flex items-center mt-6">
+            <input
+              type="checkbox"
+              id="termsCheck"
+              required=""
+              class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+            />
+            <label
+              for="termsCheck"
+              class="ml-3 text-gray-700 font-semibold select-none cursor-pointer"
+            >
+              Anda siap mematuhi persyaratan layanan ini
+            </label>
+          </div>
+        </section>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mt-8 relative z-10">
+          <button
+            type="button"
+            id="prevBtn"
+            class="bg-gray-300 text-gray-700 font-semibold py-2 px-5 rounded-md hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            Sebelumnya
+          </button>
+          <button
+            type="button"
+            id="nextBtn"
+            class="bg-green-600 text-white font-semibold py-2 px-5 rounded-md hover:bg-green-700 transition"
+          >
+            Selanjutnya
+          </button>
+          <button
+            type="submit"
+            id="submitBtn"
+            class="bg-green-600 text-white font-semibold py-2 px-5 rounded-md hover:bg-green-700 transition hidden"
+          >
+            Daftar Sekarang
+          </button>
+        </div>
+      </form>
+    </main>
+    <footer
+      class="w-full max-w-md mt-6 text-center text-gray-700 font-semibold"
+    >
+      <a href="login.html" class="text-green-600 hover:underline"
+        >Sudah punya Akun? login disini.</a
+      >
+    </footer>
+
+    <script
+      src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+      async=""
+    ></script>
+    <script>
+      window.plugins = window.plugins || {};
+      document.addEventListener(
+        "deviceready",
+        function () {
+          window.plugins.OneSignal.setAppId(
+            "7993ca4b-6759-4305-9cfd-84c29cf04a59"
+          ); // ganti dengan App ID kamu
+        },
+        false
+      );
+    </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+        getDocs,
+        updateDoc,
+        collection,
+        query,
+        where,
+        addDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
       const firebaseConfig = {
-        apiKey: "AIzaSyDCt1DuzTaHaVekghka98_rAO6tU8iLhKQ",
-        authDomain: "gmi-enterprise080625.firebaseapp.com",
-        projectId: "gmi-enterprise080625",
-        storageBucket: "gmi-enterprise080625.firebasestorage.app",
-        messagingSenderId: "740806922771",
-        appId: "1:740806922771:web:7245637b3bf1d916a925e6",
-        measurementId: "G-5ZZZMH79V9"
-        };
+        apiKey: "AIzaSyA6EHE7Kcg9Xpbld9sooIslZtQLLbPgP-o",
+        authDomain: "gmi-vereight.firebaseapp.com",
+        projectId: "gmi-vereight",
+        storageBucket: "gmi-vereight.firebasestorage.app",
+        messagingSenderId: "281469011810",
+        appId: "1:281469011810:web:4151a2a18ee25b8627ce3b",
+      };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
 
-    function generateReferralCode() {
-      return Math.random().toString(36).substring(2, 8).toUpperCase();
-    }
-
-    const form = document.getElementById("registerForm");
-    const steps = Array.from(document.querySelectorAll(".step-section"));
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const submitBtn = document.getElementById("submitBtn");
-
-    let currentStep = 0;
-
-    function showStep(step) {
-      steps.forEach((section, i) => {
-        section.classList.toggle("hidden", i !== step);
-      });
-      prevBtn.disabled = step === 0;
-      nextBtn.classList.toggle("hidden", step === steps.length - 1);
-      submitBtn.classList.toggle("hidden", step !== steps.length - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function validateStep(step) {
-      const inputs = Array.from(steps[step].querySelectorAll("input[required]"));
-      for (const input of inputs) {
-        if (input.type === "checkbox") {
-          if (!input.checked) return false;
-        } else if (!input.value.trim()) {
-          return false;
-        }
-        if (input.id === "whatsapp") {
-          // Validate WhatsApp format: 08xx - xxxx - xxxx or 08xxxxxxxxxx (digits only)
-          const val = input.value.trim();
-          // Accept digits, spaces, dashes
-          const cleaned = val.replace(/[\s-]/g, "");
-          if (!/^08\d{8,13}$/.test(cleaned)) return false;
-        }
-      }
-      return true;
-    }
-
-    nextBtn.addEventListener("click", () => {
-      if (!validateStep(currentStep)) {
-        alert("Mohon lengkapi semua field yang wajib diisi dengan benar sebelum melanjutkan.");
-        return;
-      }
-      currentStep++;
-      showStep(currentStep);
-    });
-
-    prevBtn.addEventListener("click", () => {
-      currentStep--;
-      showStep(currentStep);
-    });
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      if (!validateStep(currentStep)) {
-        alert("Mohon lengkapi semua field yang wajib diisi dengan benar.");
-        return;
+      function generateReferralCode() {
+        return Math.random().toString(36).substring(2, 8).toUpperCase();
       }
 
-      // Ambil semua nilai input
-      const fullName = document.getElementById("fullName").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const whatsappRaw = document.getElementById("whatsapp").value.trim();
-      // Normalize WhatsApp number: remove spaces and dashes, convert leading 0 to +62
-      let whatsapp = whatsappRaw.replace(/[\s-]/g, "");
-      if (whatsapp.startsWith("0")) {
-        whatsapp = "+62" + whatsapp.slice(1);
-      }
-      const desa = document.getElementById("desa").value.trim();
-      const kecamatan = document.getElementById("kecamatan").value.trim();
-      const kabupaten = document.getElementById("kabupaten").value.trim();
-      const provinsi = document.getElementById("provinsi").value.trim();
-      const referralInput = document.getElementById("referralInput").value.trim().toUpperCase();
-      const termsCheck = document.getElementById("termsCheck").checked;
-      const ownReferral = generateReferralCode();
+      const form = document.getElementById("registerForm");
+      const steps = Array.from(document.querySelectorAll(".step-section"));
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const submitBtn = document.getElementById("submitBtn");
+      const requestOtpBtn = document.getElementById("requestOtpBtn");
 
-      if (!termsCheck) {
-        alert("Anda harus menyetujui persyaratan layanan untuk melanjutkan.");
-        return;
-      }
+      let currentStep = 0;
+      let isAnimating = false;
 
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const uid = userCredential.user.uid;
+      function showStep(step, direction = 1) {
+        if (isAnimating) return;
+        isAnimating = true;
 
-        // 🟢 Hubungkan user ke OneSignal
-        if (window.plugins && window.plugins.OneSignal && uid) {
-          window.plugins.OneSignal.setExternalUserId(uid,
-            function(results) {
-              console.log("✅ User ID dikirim ke OneSignal:", results);
-            },
-            function(error) {
-              console.error("❌ Gagal menghubungkan ke OneSignal:", error);
-            }
+        steps.forEach((section, i) => {
+          section.classList.remove(
+            "active",
+            "slide-in-right",
+            "slide-out-left",
+            "slide-in-left",
+            "slide-out-right"
           );
-        }
-
-        let referredBy = "";
-        let points = 0;
-
-        if (referralInput !== "") {
-          const q = query(collection(db, "users"), where("referral", "==", referralInput));
-          const querySnapshot = await getDocs(q);
-
-          if (!querySnapshot.empty) {
-            referredBy = referralInput;
-            points += 100;
-
-            for (const docSnap of querySnapshot.docs) {
-              const refUserRef = doc(db, "users", docSnap.id);
-              const refData = docSnap.data();
-              const currentPoints = refData.points || 0;
-
-              await updateDoc(refUserRef, {
-                points: currentPoints + 200,
-              });
-            }
+          if (i === currentStep) {
+            section.classList.add("active");
+            section.style.position = "relative";
+            section.style.opacity = "1";
+            section.style.transform = "translateX(0)";
           } else {
-            alert("Kode referral tidak ditemukan. Pendaftaran tetap diproses.");
+            section.style.position = "absolute";
+            section.style.opacity = "0";
+            section.style.transform = "translateX(100%)";
+          }
+        });
+
+        if (direction === 1) {
+          // Next
+          const currentSection = steps[currentStep - 1];
+          const nextSection = steps[currentStep];
+          if (currentSection && nextSection) {
+            currentSection.classList.add("slide-out-left");
+            nextSection.classList.add("slide-in-right", "active");
+            nextSection.style.position = "relative";
+            nextSection.style.opacity = "1";
+            nextSection.style.transform = "translateX(0)";
+          }
+        } else if (direction === -1) {
+          // Previous
+          const currentSection = steps[currentStep + 1];
+          const prevSection = steps[currentStep];
+          if (currentSection && prevSection) {
+            currentSection.classList.add("slide-out-right");
+            prevSection.classList.add("slide-in-left", "active");
+            prevSection.style.position = "relative";
+            prevSection.style.opacity = "1";
+            prevSection.style.transform = "translateX(0)";
           }
         }
 
-        await setDoc(doc(db, "users", uid), {
-          fullName,
-          email,
-          whatsapp,
-          desa,
-          kecamatan,
-          kabupaten,
-          provinsi,
-          referral: ownReferral,
-          referredBy,
-          points,
-        });
+        prevBtn.disabled = step === 0;
+        nextBtn.classList.toggle("hidden", step === steps.length - 1);
+        submitBtn.classList.toggle("hidden", step !== steps.length - 1);
+        window.scrollTo({ top: 0, behavior: "smooth" });
 
-        alert("Pendaftaran Sedang Di proses.");
-        window.location.href = "verifikasi.html";
-      } catch (error) {
-        console.error("Error:", error);
-        alert("Terjadi kesalahan: " + error.message);
+        // Wait for animation to finish before allowing next animation
+        setTimeout(() => {
+          steps.forEach((section, i) => {
+            if (i === step) {
+              section.classList.add("active");
+              section.classList.remove(
+                "slide-in-right",
+                "slide-out-left",
+                "slide-in-left",
+                "slide-out-right"
+              );
+              section.style.position = "relative";
+              section.style.opacity = "1";
+              section.style.transform = "translateX(0)";
+            } else {
+              section.classList.remove(
+                "active",
+                "slide-in-right",
+                "slide-out-left",
+                "slide-in-left",
+                "slide-out-right"
+              );
+              section.style.position = "absolute";
+              section.style.opacity = "0";
+              section.style.transform = "translateX(100%)";
+            }
+          });
+          isAnimating = false;
+        }, 500);
       }
-    });
 
-    showStep(currentStep);
-  </script>
-</body>
+      function validateStep(step) {
+        const inputs = Array.from(
+          steps[step].querySelectorAll("input[required]")
+        );
+        for (const input of inputs) {
+          if (input.type === "checkbox") {
+            if (!input.checked) return false;
+          } else if (!input.value.trim()) {
+            return false;
+          }
+          if (input.id === "otpCode") {
+            if (!/^\d{6}$/.test(input.value.trim())) return false;
+          }
+          if (input.id === "whatsapp") {
+            // Validate WhatsApp format: 08xx - xxxx - xxxx or 08xxxxxxxxxx (digits only)
+            const val = input.value.trim();
+            // Accept digits, spaces, dashes
+            const cleaned = val.replace(/[\s-]/g, "");
+            if (!/^08\d{8,13}$/.test(cleaned)) return false;
+          }
+        }
+        return true;
+      }
+
+      nextBtn.addEventListener("click", () => {
+        if (isAnimating) return;
+        if (!validateStep(currentStep)) {
+          alert(
+            "Mohon lengkapi semua field yang wajib diisi dengan benar sebelum melanjutkan."
+          );
+          return;
+        }
+        if (currentStep < steps.length - 1) {
+          currentStep++;
+          showStep(currentStep, 1);
+        }
+      });
+
+      prevBtn.addEventListener("click", () => {
+        if (isAnimating) return;
+        if (currentStep > 0) {
+          currentStep--;
+          showStep(currentStep, -1);
+        }
+      });
+
+      requestOtpBtn.addEventListener("click", async () => {
+        // Ambil email dari step 2 input
+        const emailInput = document.getElementById("email");
+        const email = emailInput ? emailInput.value.trim() : "";
+
+        if (!email) {
+          alert("Mohon isi email terlebih dahulu pada langkah sebelumnya.");
+          return;
+        }
+
+        // Simple email format validation
+        const emailRegex =
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert("Mohon masukkan email yang valid.");
+          return;
+        }
+
+        try {
+          // Generate 6 digit OTP code
+          const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+          // Add to Firestore collection "verifikasi"
+          await addDoc(collection(db, "verifikasi"), {
+            email: email,
+            otp: otpCode,
+            createdAt: serverTimestamp(),
+            valid: true,
+          });
+
+          alert(
+            `Kode OTP telah dikirim ke email ${email} (simulasi). Kode OTP: ${otpCode}`
+          );
+        } catch (error) {
+          console.error("Error saat meminta kode OTP:", error);
+          alert("Terjadi kesalahan saat meminta kode OTP. Silakan coba lagi.");
+        }
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (!validateStep(currentStep)) {
+          alert("Mohon lengkapi semua field yang wajib diisi dengan benar.");
+          return;
+        }
+
+        // Ambil semua nilai input
+        const fullName = document.getElementById("fullName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const whatsappRaw = document.getElementById("whatsapp").value.trim();
+        // Normalize WhatsApp number: remove spaces and dashes, convert leading 0 to +62
+        let whatsapp = whatsappRaw.replace(/[\s-]/g, "");
+        if (whatsapp.startsWith("0")) {
+          whatsapp = "+62" + whatsapp.slice(1);
+        }
+        const desa = document.getElementById("desa").value.trim();
+        const kecamatan = document.getElementById("kecamatan").value.trim();
+        const kabupaten = document.getElementById("kabupaten").value.trim();
+        const provinsi = document.getElementById("provinsi").value.trim();
+        const referralInput = document
+          .getElementById("referralInput")
+          .value.trim()
+          .toUpperCase();
+        const termsCheck = document.getElementById("termsCheck").checked;
+        const ownReferral = generateReferralCode();
+
+        if (!termsCheck) {
+          alert("Anda harus menyetujui persyaratan layanan untuk melanjutkan.");
+          return;
+        }
+
+        try {
+          // Validasi OTP sebelum daftar
+          const otpCode = document.getElementById("otpCode").value.trim();
+          const verifikasiQuery = query(
+            collection(db, "verifikasi"),
+            where("email", "==", email),
+            where("otp", "==", otpCode),
+            where("valid", "==", true)
+          );
+          const verifikasiSnap = await getDocs(verifikasiQuery);
+
+          if (verifikasiSnap.empty) {
+            alert(
+              "Kode OTP tidak valid. Pastikan Anda telah menerima OTP dari admin."
+            );
+            return;
+          }
+
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          const uid = userCredential.user.uid;
+
+          // 🟢 Hubungkan user ke OneSignal
+          if (window.plugins && window.plugins.OneSignal && uid) {
+            window.plugins.OneSignal.setExternalUserId(
+              uid,
+              function (results) {
+                console.log("✅ User ID dikirim ke OneSignal:", results);
+              },
+              function (error) {
+                console.error("❌ Gagal menghubungkan ke OneSignal:", error);
+              }
+            );
+          }
+
+          let referredBy = "";
+          let points = 0;
+
+          if (referralInput !== "") {
+            const q = query(
+              collection(db, "users"),
+              where("referral", "==", referralInput)
+            );
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+              referredBy = referralInput;
+              points += 100;
+
+              for (const docSnap of querySnapshot.docs) {
+                const refUserRef = doc(db, "users", docSnap.id);
+                const refData = docSnap.data();
+                const currentPoints = refData.points || 0;
+
+                await updateDoc(refUserRef, {
+                  points: currentPoints + 200,
+                });
+              }
+            } else {
+              alert(
+                "Kode referral tidak ditemukan. Pendaftaran tetap diproses."
+              );
+            }
+          }
+
+          await setDoc(doc(db, "users", uid), {
+            fullName,
+            email,
+            whatsapp,
+            desa,
+            kecamatan,
+            kabupaten,
+            provinsi,
+            referral: ownReferral,
+            referredBy,
+            points,
+          });
+
+          const otpDocId = verifikasiSnap.docs[0].id;
+          await updateDoc(doc(db, "verifikasi", otpDocId), {
+            valid: false,
+          });
+
+          alert("Pendaftaran Sedang Di proses.");
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Terjadi kesalahan: " + error.message);
+        }
+      });
+
+      // Initialize first step visible
+      showStep(currentStep);
+    </script>
+  </body>
 </html>
