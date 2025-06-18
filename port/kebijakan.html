@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kebijakan Penggunaan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 1.3rem;
+      color: #34495e;
+      margin-top: 1.5rem;
+    }
+    p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kebijakan Penggunaan Aplikasi</h1>
+
+    <p>Selamat datang di aplikasi resmi kami. Mohon luangkan waktu sejenak untuk membaca dan memahami kebijakan penggunaan berikut ini sebelum melanjutkan penggunaan aplikasi lebih lanjut.</p>
+
+    <h2>1. Privasi dan Data Pengguna</h2>
+    <p>Aplikasi ini tidak meminta data pribadi seperti nama lengkap, alamat, atau informasi identitas lainnya. Namun, untuk keperluan tertentu seperti pendaftaran layanan melalui jalur administrasi resmi, pengguna dapat diminta untuk menghubungi admin melalui WhatsApp.</p>
+
+    <h2>2. Status Pengembangan</h2>
+    <p>Aplikasi ini masih dalam tahap pengembangan dan penyempurnaan. Kami sangat menghargai setiap saran, kritik, atau masukan yang disampaikan oleh pengguna untuk meningkatkan kualitas fitur dan layanan ke depan.</p>
+
+    <h2>3. Keamanan Transaksi</h2>
+    <p>Pengguna dilarang melakukan transaksi atau memberikan informasi kepada pihak manapun selain admin resmi yang ditunjuk oleh pengembang. Segala bentuk transaksi di luar jalur resmi menjadi tanggung jawab pengguna, dan kami anjurkan untuk segera melaporkan kejadian mencurigakan.</p>
+
+    <h2>4. Larangan Penyalahgunaan</h2>
+    <p>Segala bentuk tindakan berikut dilarang keras:</p>
+    <ul>
+      <li>Meretas atau menyabotase sistem dan database aplikasi.</li>
+      <li>Menyebarkan konten yang bersifat pornografi, politik provokatif, ujaran kebencian, atau rasisme.</li>
+      <li>Menggunakan aplikasi untuk menipu, mencemarkan nama baik, atau aktivitas ilegal lainnya.</li>
+    </ul>
+    <p>Tindakan semacam ini akan dianggap sebagai pelanggaran hukum dan dapat ditindaklanjuti sesuai ketentuan yang berlaku.</p>
+
+    <h2>5. Tanggung Jawab atas Kehilangan Data</h2>
+    <p>Kami tidak bertanggung jawab atas segala bentuk kehilangan data atau informasi pribadi yang terjadi akibat:</p>
+    <ul>
+      <li>Kelalaian pengguna sendiri.</li>
+      <li>Membagikan data kepada pihak yang tidak berwenang.</li>
+      <li>Mengakses aplikasi dari perangkat yang tidak aman.</li>
+    </ul>
+    <p>Kami mengimbau pengguna untuk tidak membagikan informasi penting kepada siapapun selain admin resmi.</p>
+
+    <h2>Penutup</h2>
+    <p>Dengan melanjutkan penggunaan aplikasi, Anda dianggap telah membaca, memahami, dan menyetujui seluruh isi kebijakan ini. Kami berharap pengalaman Anda menyenangkan dan bermanfaat bersama aplikasi ini.</p>
+
+    <button onclick="setujuKebijakan()">Saya Setuju</button>
+  </div>
+
+  <script>
+    function setujuKebijakan() {
+      localStorage.setItem('sudahSetujuKebijakan', 'true');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detail Berita</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDCt1DuzTaHaVekghka98_rAO6tU8iLhKQ",
+      authDomain: "gmi-enterprise080625.firebaseapp.com",
+      projectId: "gmi-enterprise080625",
+      storageBucket: "gmi-enterprise080625.appspot.com",
+      messagingSenderId: "740806922771",
+      appId: "1:740806922771:web:7245637b3bf1d916a925e6",
+      measurementId: "G-5ZZZMH79V9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const beritaContainer = document.getElementById("beritaContainer");
+
+    // Ambil title dari URL
+    const params = new URLSearchParams(window.location.search);
+    const title = decodeURIComponent(params.get("title") || "");
+
+    async function loadBeritaDetail() {
+      if (!title) {
+        beritaContainer.innerHTML = "<p class='text-center text-red-500 mt-10'>Judul berita tidak ditemukan di URL.</p>";
+        return;
+      }
+
+      const q = query(collection(db, "news"), where("title", "==", title));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        beritaContainer.innerHTML = "<p class='text-center text-red-500 mt-10'>Berita dengan judul tersebut tidak ditemukan.</p>";
+        return;
+      }
+
+      const data = querySnapshot.docs[0].data();
+      const waktu = data.timestamp?.seconds
+        ? new Date(data.timestamp.seconds * 1000).toLocaleString("id-ID")
+        : "Tidak diketahui";
+
+      beritaContainer.innerHTML = `
+        <div class="max-w-3xl mx-auto">
+          <img src="${data.imageUrl || 'https://placehold.co/800x400?text=Gambar+Tidak+Tersedia'}" alt="Gambar berita: ${data.title || 'Tanpa Judul'}" class="w-full rounded-lg mb-6 shadow" />
+          <h1 class="text-3xl font-bold text-gray-900 mb-4">${data.title || "Tanpa Judul"}</h1>
+          <p class="text-sm text-gray-500 mb-6 flex items-center"><i class="far fa-clock mr-2"></i> ${waktu}</p>
+          <div class="text-gray-800 leading-relaxed whitespace-pre-line">
+            ${data.content || data.description || "<em>Isi berita belum tersedia.</em>"}
+          </div>
+          <div class="mt-8">
+            <a href="index.html" class="inline-flex items-center text-blue-600 hover:underline font-semibold"><i class="fas fa-arrow-left mr-2"></i>Kembali ke Berita</a>
+          </div>
+        </div>
+      `;
+    }
+
+    window.addEventListener("DOMContentLoaded", loadBeritaDetail);
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800 px-6 py-10 font-sans min-h-screen">
+  <div id="beritaContainer" class="animate-pulse text-center text-gray-400 text-lg">Memuat berita...</div>
+</body>
+</html>

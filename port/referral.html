@@ -1,0 +1,240 @@
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Histori Referral</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #185c54;
+    }
+    header, footer {
+      background-color: #185c54;
+    }
+    h1 {
+      color: #ffffff;
+    }
+    #referralBox {
+      background-color: #ffffff;
+      color: #185c54;
+    }
+    button#logoutBtn {
+      color: #ffffff;
+      border: 1.5px solid #ffffff;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    button#logoutBtn:hover,
+    button#logoutBtn:focus {
+      background-color: #ffffff;
+      color: #185c54;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(24, 92, 84, 0.5);
+    }
+    #referralBox ul::-webkit-scrollbar {
+      width: 8px;
+    }
+    #referralBox ul::-webkit-scrollbar-track {
+      background: #e6f0ef;
+      border-radius: 4px;
+    }
+    #referralBox ul::-webkit-scrollbar-thumb {
+      background-color: #185c54;
+      border-radius: 4px;
+    }
+    button#copyReferralBtn {
+      background-color: #185c54;
+      color: #ffffff;
+      border: 1.5px solid #185c54;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    button#copyReferralBtn:hover,
+    button#copyReferralBtn:focus {
+      background-color: #ffffff;
+      color: #185c54;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(24, 92, 84, 0.5);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <header class="shadow">
+    <div class="max-w-xl mx-auto px-6 py-4 flex flex-col items-center justify-center">
+      <h1 class="text-2xl font-semibold text-center" style="margin: 0 auto;">Histori Referral :</h1>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-xl mx-auto p-6 w-full">
+    <div id="referralCodeContainer" class="mb-4 hidden flex flex-col sm:flex-row sm:items-center sm:justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-white">
+      <span class="text-lg font-semibold">Nomor Referral: <span id="referralCode" class="underline cursor-pointer"></span></span>
+      <button id="copyReferralBtn" class="rounded px-4 py-2 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-white flex items-center space-x-2">
+        <i class="fas fa-copy"></i><span>Salin Kode</span>
+      </button>
+    </div>
+    <section id="referralBox" class="rounded-lg shadow p-6 min-h-[200px] flex flex-col justify-center items-center text-center">
+      <p class="text-red-600 font-semibold">Silakan login terlebih dahulu.</p>
+    </section>
+  </main>
+
+  <footer class="border-t">
+    <div class="max-w-xl mx-auto px-6 py-4 text-center text-white text-sm select-none">
+      &copy; 2025 GMI . All rights reserved.
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA6EHE7Kcg9Xpbld9sooIslZtQLLbPgP-o",
+      authDomain: "gmi-vereight.firebaseapp.com",
+      projectId: "gmi-vereight",
+      storageBucket: "gmi-vereight.firebasestorage.app",
+      messagingSenderId: "281469011810",
+      appId: "1:281469011810:web:4151a2a18ee25b8627ce3b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const referralBox = document.getElementById("referralBox");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const referralCodeContainer = document.getElementById("referralCodeContainer");
+    const referralCodeSpan = document.getElementById("referralCode");
+    const copyReferralBtn = document.getElementById("copyReferralBtn");
+
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        referralBox.innerHTML = `<p class="text-red-600 font-semibold">Kamu telah logout. Silakan login kembali.</p>`;
+        logoutBtn.classList.add("hidden");
+        referralCodeContainer.classList.add("hidden");
+        referralCodeSpan.textContent = "";
+      } catch (error) {
+        alert("Gagal logout: " + error.message);
+      }
+    });
+
+    copyReferralBtn.addEventListener("click", () => {
+      const code = referralCodeSpan.textContent;
+      if (!code) return;
+      navigator.clipboard.writeText(code).then(() => {
+        copyReferralBtn.innerHTML = '<i class="fas fa-check"></i><span>Disalin!</span>';
+        setTimeout(() => {
+          copyReferralBtn.innerHTML = '<i class="fas fa-copy"></i><span>Salin Kode</span>';
+        }, 2000);
+      }).catch(() => {
+        alert("Gagal menyalin kode referral.");
+      });
+    });
+
+    referralCodeSpan.addEventListener("click", () => {
+      const code = referralCodeSpan.textContent;
+      if (!code) return;
+      navigator.clipboard.writeText(code).then(() => {
+        copyReferralBtn.innerHTML = '<i class="fas fa-check"></i><span>Disalin!</span>';
+        setTimeout(() => {
+          copyReferralBtn.innerHTML = '<i class="fas fa-copy"></i><span>Salin Kode</span>';
+        }, 2000);
+      }).catch(() => {
+        alert("Gagal menyalin kode referral.");
+      });
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        referralBox.innerHTML = `<p class="text-red-600 font-semibold">Silakan login terlebih dahulu.</p>`;
+        logoutBtn.classList.add("hidden");
+        referralCodeContainer.classList.add("hidden");
+        referralCodeSpan.textContent = "";
+        return;
+      }
+
+      logoutBtn.classList.remove("hidden");
+
+      try {
+        const usersRef = collection(db, "users");
+        const userQuery = query(usersRef, where("email", "==", user.email));
+        const userSnap = await getDocs(userQuery);
+
+        if (userSnap.empty) {
+          referralBox.innerHTML = `<p class="text-red-600 font-semibold">Data user tidak ditemukan.</p>`;
+          referralCodeContainer.classList.add("hidden");
+          referralCodeSpan.textContent = "";
+          return;
+        }
+
+        const currentUser = userSnap.docs[0].data();
+        const myReferralCode = currentUser.referral;
+
+        if (!myReferralCode) {
+          referralBox.innerHTML = `<p class="text-yellow-600 font-semibold">Kamu belum memiliki kode referral.</p>`;
+          referralCodeContainer.classList.add("hidden");
+          referralCodeSpan.textContent = "";
+          return;
+        }
+
+        referralCodeSpan.textContent = myReferralCode;
+        referralCodeContainer.classList.remove("hidden");
+
+        const referredQuery = query(usersRef, where("referredBy", "==", myReferralCode));
+        const referredSnap = await getDocs(referredQuery);
+
+        if (referredSnap.empty) {
+          referralBox.innerHTML = `
+            <p class="mb-4">Belum ada yang menggunakan kode referral kamu.</p>
+            <img
+              src="https://placehold.co/400x200?text=Referral+Empty+State&font=Inter&bg=F3F4F6&fg=9CA3AF"
+              alt="Ilustrasi kosong, tidak ada pengguna yang menggunakan kode referral, gambar vektor minimalis dengan warna abu-abu dan biru muda"
+              class="mx-auto"
+            />
+          `;
+        } else {
+          let html = `
+            <p class="text-sm mb-4 font-semibold">Total referral: <strong>${referredSnap.size}</strong></p>
+            <ul class="space-y-4 max-h-[400px] overflow-y-auto">
+          `;
+
+          referredSnap.forEach(doc => {
+            const data = doc.data();
+            html += `
+              <li class="bg-[#e6f0ef] border border-[#185c54] rounded-lg p-4 flex items-center space-x-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                <img
+                  src="https://placehold.co/64x64?text=User&font=Inter&bg=185c54&fg=ffffff"
+                  alt="Avatar pengguna dengan latar hijau tua #185c54 dan teks User berwarna putih, gambar vektor minimalis"
+                  class="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                />
+                <div class="flex flex-col text-[#185c54]">
+                  <p class="font-semibold truncate max-w-xs">${data.fullName}</p>
+                  <p class="text-sm truncate max-w-xs">${data.email}</p>
+                </div>
+              </li>
+            `;
+          });
+
+          html += `</ul>`;
+          referralBox.innerHTML = html;
+        }
+
+      } catch (error) {
+        console.error("Terjadi kesalahan:", error);
+        referralBox.innerHTML = `<p class="text-red-600 font-semibold">Gagal memuat data referral.</p>`;
+        referralCodeContainer.classList.add("hidden");
+        referralCodeSpan.textContent = "";
+      }
+    });
+  </script>
+</body>
+</html>

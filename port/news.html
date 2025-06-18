@@ -1,0 +1,104 @@
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Upload Berita Baru</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+  <main class="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
+    <h2 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Upload Berita Baru</h2>
+    <form id="newsForm" class="space-y-6" novalidate>
+      <div>
+        <label for="imageInput" class="block text-gray-700 font-medium mb-2">Gambar Berita:</label>
+        <input type="file" id="imageInput" accept="image/*" required class="block w-full text-gray-700 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div>
+        <label for="titleInput" class="block text-gray-700 font-medium mb-2">Judul Berita:</label>
+        <input type="text" id="titleInput" required placeholder="Masukkan judul berita" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div>
+        <label for="descInput" class="block text-gray-700 font-medium mb-2">Deskripsi:</label>
+        <textarea id="descInput" rows="5" required placeholder="Masukkan deskripsi berita" class="block w-full px-4 py-2 border border-gray-300 rounded-md resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300">
+        <i class="fas fa-upload mr-2"></i>Upload Berita
+      </button>
+    </form>
+  </main>
+
+<script>
+  const clientId = "55ce2fc3e30b2f8";
+
+  document.getElementById('newsForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const fileInput = document.getElementById('imageInput');
+    const title = document.getElementById('titleInput').value.trim();
+    const desc = document.getElementById('descInput').value.trim();
+
+    if (fileInput.files.length === 0) {
+      alert("Harap pilih gambar!");
+      return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = async function() {
+      const base64 = reader.result.split(',')[1]; // ambil base64 tanpa prefix
+
+      try {
+        const response = await fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          headers: {
+            Authorization: "Client-ID " + clientId,
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            image: base64,
+            type: "base64"
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          const imageUrl = data.data.link;
+          saveNews(imageUrl, title, desc);
+        } else {
+          alert("Upload gambar gagal: " + data.data.error);
+        }
+      } catch (error) {
+        alert("Error upload gambar: " + error.message);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  function saveNews(imageUrl, title, description) {
+    const now = new Date();
+    const createdAt = now.toLocaleString('id-ID', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+
+    const newPost = {
+      imageUrl,
+      title,
+      description,
+      createdAt
+    };
+
+    let newsList = JSON.parse(localStorage.getItem('newsData')) || [];
+    newsList.unshift(newPost);
+    localStorage.setItem('newsData', JSON.stringify(newsList));
+
+    alert("Berita berhasil diunggah!");
+    document.getElementById('newsForm').reset();
+  }
+</script>
+</body>
+</html>

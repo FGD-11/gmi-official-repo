@@ -1,0 +1,611 @@
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Form Pendaftaran Wizard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+    (function () {
+    emailjs.init("fCbH6sq1760AZE094"); // ← Ganti dengan Public Key kamu
+    })();
+    </script>
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .step-section {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(100%);
+        transition: transform 0.5s ease, opacity 0.5s ease;
+      }
+      .step-section.active {
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+        transform: translateX(0);
+      }
+      .step-section.slide-out-left {
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+      }
+      .step-section.slide-in-right {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+      }
+      .step-section.slide-out-right {
+        transform: translateX(100%);
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+      }
+      .step-section.slide-in-left {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 min-h-screen flex flex-col items-center justify-center px-4 py-10 relative"
+  >
+    <main
+      class="bg-white w-full max-w-md rounded-lg shadow-md p-8 relative overflow-hidden min-h-[520px]"
+    >
+      <a href="login.html"></a>
+      <form id="registerForm" class="space-y-6 relative" novalidate="">
+        <!-- Step 1 -->
+        <section
+          data-step="1"
+          class="step-section"
+          style="position: absolute; opacity: 0; transform: translateX(100%)"
+        >
+          <div>
+            <center>
+              <p style="color: green"><b>REMINDER!</b></p>
+            </center>
+            <br />
+            <p align="justify" style="color: green">
+              Pastikan sebelum mendaftar ke Platform ini selalu catat biodata
+              anda dengan baik, dan
+              <b
+                >Dilarang Mencantumkan Kata sandi akun yang sama dengan Kata
+                sandi Akun Media yang lain!</b
+              >
+            </p>
+          </div>
+        </section>
+
+        <!-- Step 2 -->
+        <section
+          data-step="2"
+          class="step-section"
+          style="position: absolute; opacity: 0; transform: translateX(100%)"
+        >
+          <div>
+            <label
+              for="fullName"
+              class="block text-gray-700 font-semibold mb-1"
+              >Nama Lengkap</label
+            >
+            <input
+              type="text"
+              id="fullName"
+              placeholder="Pastikan gunakan nama asli"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="name"
+            />
+          </div>
+          <div>
+            <label
+              for="email"
+              class="block text-gray-700 font-semibold mb-1"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              placeholder="Masukkan email aktif anda"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="email"
+            />
+          </div>
+          <div>
+            <label
+              for="password"
+              class="block text-gray-700 font-semibold mb-1"
+              >Kata Sandi</label
+            >
+            <input
+              type="password"
+              id="password"
+              placeholder="Kata sandi"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="new-password"
+            />
+            <p class="mt-1 text-sm text-red-600 font-semibold">
+              <i class="fas fa-exclamation-circle mr-1"></i> Jangan gunakan kata
+              sandi yang sama dengan akun email dan sosmed
+            </p>
+          </div>
+          <div>
+            <label
+              for="whatsapp"
+              class="block text-gray-700 font-semibold mb-1"
+              >WhatsApp</label
+            >
+            <input
+              type="text"
+              id="whatsapp"
+              placeholder="Contoh: 08xx - xxxx - xxxx"
+              required=""
+              pattern="^0\d{8,15}$"
+              title="Masukkan nomor WhatsApp dengan format 08xx - xxxx - xxxx"
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="tel"
+            />
+          </div>
+        </section>
+
+        <!-- Step 3 -->
+        <section
+          data-step="3"
+          class="step-section"
+          style="position: absolute; opacity: 0; transform: translateX(100%)"
+        >
+          <div>
+            <label
+              for="desa"
+              class="block text-gray-700 font-semibold mb-1"
+              >Desa/Perumahan</label
+            >
+            <input
+              type="text"
+              id="desa"
+              placeholder="Desa atau Perumahan"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="address-level3"
+            />
+          </div>
+          <div>
+            <label
+              for="kecamatan"
+              class="block text-gray-700 font-semibold mb-1"
+              >Kecamatan</label
+            >
+            <input
+              type="text"
+              id="kecamatan"
+              placeholder="Kecamatan"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="address-level2"
+            />
+          </div>
+          <div>
+            <label
+              for="kabupaten"
+              class="block text-gray-700 font-semibold mb-1"
+              >Kabupaten</label
+            >
+            <input
+              type="text"
+              id="kabupaten"
+              placeholder="Kabupaten"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="address-level1"
+            />
+          </div>
+          <div>
+            <label
+              for="provinsi"
+              class="block text-gray-700 font-semibold mb-1"
+              >Provinsi</label
+            >
+            <input
+              type="text"
+              id="provinsi"
+              placeholder="Provinsi"
+              required=""
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="region"
+            />
+          </div>
+        </section>
+
+        <!-- Step 4 -->
+        <section
+          data-step="4"
+          class="step-section active"
+          style="position: relative; opacity: 1; transform: translateX(0px)"
+        >
+          <div>
+            <label
+              for="otpCode"
+              class="block text-gray-700 font-semibold mb-1"
+            >
+              Kode OTP
+            </label>
+            <input
+              type="text"
+              id="otpCode"
+              placeholder="Masukkan kode OTP dari email"
+              required=""
+              pattern="^\d{6}$"
+              title="OTP harus 6 digit angka"
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+            />
+            <p class="mt-1 text-sm text-green-600 font-semibold">
+              <i class="fas fa-info-circle mr-1"></i> Kode ini dikirim oleh
+              admin ke email Anda.
+            </p>
+          </div>
+          <div class="mt-6 flex justify-center">
+            <button
+              type="button"
+              id="requestOtpBtn"
+              class="bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-700 transition"
+            >
+              Minta Kode OTP
+            </button>
+          </div>
+        </section>
+
+        <!-- Step 5 -->
+        <section
+          data-step="5"
+          class="step-section"
+          style="position: absolute; opacity: 0; transform: translateX(100%)"
+        >
+          <div>
+            <label
+              for="referralInput"
+              class="block text-gray-700 font-semibold mb-1"
+              >Kode Referral</label
+            >
+            <input
+              type="text"
+              id="referralInput"
+              placeholder="Opsional"
+              class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autocomplete="off"
+            />
+            <p
+              class="mt-1 text-sm text-green-600 font-semibold flex items-center"
+            >
+              <i class="fas fa-info-circle mr-1"></i> Jika anda memasukkan kode
+              referral milik kerabat anda akan mendapatkan 100 point
+            </p>
+          </div>
+          <div class="flex items-center mt-6">
+            <input
+              type="checkbox"
+              id="termsCheck"
+              required=""
+              class="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+            />
+            <label
+              for="termsCheck"
+              class="ml-3 text-gray-700 font-semibold select-none cursor-pointer"
+            >
+              Anda siap mematuhi persyaratan layanan ini
+            </label>
+          </div>
+        </section>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mt-8 relative z-10">
+          <button
+            type="button"
+            id="prevBtn"
+            class="bg-gray-300 text-gray-700 font-semibold py-2 px-5 rounded-md hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            Sebelumnya
+          </button>
+          <button
+            type="button"
+            id="nextBtn"
+            class="bg-green-600 text-white font-semibold py-2 px-5 rounded-md hover:bg-green-700 transition"
+          >
+            Selanjutnya
+          </button>
+          <button
+            type="submit"
+            id="submitBtn"
+            class="bg-green-600 text-white font-semibold py-2 px-5 rounded-md hover:bg-green-700 transition hidden"
+          >
+            Daftar Sekarang
+          </button>
+        </div>
+      </form>
+    </main>
+    <footer
+      class="w-full max-w-md mt-6 text-center text-gray-700 font-semibold"
+    >
+      <a href="login.html" class="text-green-600 hover:underline"
+        >Sudah punya Akun? login disini.</a
+      >
+    </footer>
+  <script type="module">
+  emailjs.init("fCbH6sq1760AZE094");
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+  } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDocs,
+    updateDoc,
+    collection,
+    query,
+    where,
+    addDoc,
+    serverTimestamp,
+  } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA6EHE7Kcg9Xpbld9sooIslZtQLLbPgP-o",
+    authDomain: "gmi-vereight.firebaseapp.com",
+    projectId: "gmi-vereight",
+    storageBucket: "gmi-vereight.firebasestorage.app",
+    messagingSenderId: "281469011810",
+    appId: "1:281469011810:web:4151a2a18ee25b8627ce3b",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  function generateReferralCode() {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  }
+
+  const form = document.getElementById("registerForm");
+  const steps = Array.from(document.querySelectorAll(".step-section"));
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const requestOtpBtn = document.getElementById("requestOtpBtn");
+
+  let currentStep = 0;
+  let isAnimating = false;
+
+  function showStep(step, direction = 1) {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    steps.forEach((section, i) => {
+      section.classList.remove(
+        "active",
+        "slide-in-right",
+        "slide-out-left",
+        "slide-in-left",
+        "slide-out-right"
+      );
+      if (i === currentStep) {
+        section.classList.add("active");
+        section.style.position = "relative";
+        section.style.opacity = "1";
+        section.style.transform = "translateX(0)";
+      } else {
+        section.style.position = "absolute";
+        section.style.opacity = "0";
+        section.style.transform = "translateX(100%)";
+      }
+    });
+
+    const currentSection = steps[currentStep + (direction === 1 ? -1 : 1)];
+    const nextSection = steps[currentStep];
+    if (currentSection && nextSection) {
+      currentSection.classList.add(direction === 1 ? "slide-out-left" : "slide-out-right");
+      nextSection.classList.add(direction === 1 ? "slide-in-right" : "slide-in-left", "active");
+      nextSection.style.position = "relative";
+      nextSection.style.opacity = "1";
+      nextSection.style.transform = "translateX(0)";
+    }
+
+    prevBtn.disabled = step === 0;
+    nextBtn.classList.toggle("hidden", step === steps.length - 1);
+    submitBtn.classList.toggle("hidden", step !== steps.length - 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    setTimeout(() => {
+      steps.forEach((section, i) => {
+        if (i === step) {
+          section.classList.add("active");
+          section.classList.remove("slide-in-right", "slide-out-left", "slide-in-left", "slide-out-right");
+          section.style.position = "relative";
+          section.style.opacity = "1";
+          section.style.transform = "translateX(0)";
+        } else {
+          section.classList.remove("active", "slide-in-right", "slide-out-left", "slide-in-left", "slide-out-right");
+          section.style.position = "absolute";
+          section.style.opacity = "0";
+          section.style.transform = "translateX(100%)";
+        }
+      });
+      isAnimating = false;
+    }, 500);
+  }
+
+  function validateStep(step) {
+    const inputs = Array.from(steps[step].querySelectorAll("input[required]"));
+    for (const input of inputs) {
+      if (input.type === "checkbox" && !input.checked) return false;
+      if (!input.value.trim()) return false;
+      if (input.id === "otpCode" && !/^\d{6}$/.test(input.value.trim())) return false;
+      if (input.id === "whatsapp") {
+        const cleaned = input.value.trim().replace(/[\s-]/g, "");
+        if (!/^08\d{8,13}$/.test(cleaned)) return false;
+      }
+    }
+    return true;
+  }
+
+  nextBtn.addEventListener("click", () => {
+    if (isAnimating) return;
+    if (!validateStep(currentStep)) {
+      alert("Mohon lengkapi semua field yang wajib diisi dengan benar sebelum melanjutkan.");
+      return;
+    }
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      showStep(currentStep, 1);
+    }
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (isAnimating) return;
+    if (currentStep > 0) {
+      currentStep--;
+      showStep(currentStep, -1);
+    }
+  });
+
+requestOtpBtn.addEventListener("click", async () => {
+  const email = document.getElementById("email")?.value.trim() || "";
+  if (!email) return alert("Mohon isi email terlebih dahulu.");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert("Format email tidak valid.");
+
+  const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // Buat batas waktu 15 menit dari sekarang
+  const now = new Date();
+  const expire = new Date(now.getTime() + 15 * 60 * 1000);
+  const expireTime = expire.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Asia/Jakarta",
+  });
+
+  try {
+    // Simpan OTP ke Firestore
+    await addDoc(collection(db, "verifikasi"), {
+      email: email,
+      otp: otpCode,
+      createdAt: serverTimestamp(),
+      valid: true,
+    });
+
+    // Kirim ke EmailJS
+    const params = {
+      to_email: email,
+      passcode: otpCode,
+      time: expireTime,
+    };
+
+
+    await emailjs.send("service_7h64tco", "template_8n2w67n", params);
+    alert("Kode OTP telah dikirim ke email " + email);
+} catch (err) {
+  console.error("OTP error:", err);
+  alert("Gagal mengirim OTP: " + (err?.text || err?.message || err));
+}
+});
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!validateStep(currentStep)) {
+      alert("Lengkapi semua field.");
+      return;
+    }
+
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    let whatsapp = document.getElementById("whatsapp").value.trim().replace(/[\s-]/g, "");
+    if (whatsapp.startsWith("0")) whatsapp = "+62" + whatsapp.slice(1);
+    const desa = document.getElementById("desa").value.trim();
+    const kecamatan = document.getElementById("kecamatan").value.trim();
+    const kabupaten = document.getElementById("kabupaten").value.trim();
+    const provinsi = document.getElementById("provinsi").value.trim();
+    const referralInput = document.getElementById("referralInput").value.trim().toUpperCase();
+    const termsCheck = document.getElementById("termsCheck").checked;
+    const ownReferral = generateReferralCode();
+
+    if (!termsCheck) return alert("Setujui syarat & ketentuan.");
+
+    try {
+      const otpCode = document.getElementById("otpCode").value.trim();
+      const verifikasiQuery = query(collection(db, "verifikasi"),
+        where("email", "==", email),
+        where("otp", "==", otpCode),
+        where("valid", "==", true));
+      const verifikasiSnap = await getDocs(verifikasiQuery);
+
+      if (verifikasiSnap.empty) return alert("OTP tidak valid.");
+
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user.uid;
+
+      if (window.plugins?.OneSignal && uid) {
+        window.plugins.OneSignal.setExternalUserId(uid, () => {}, () => {});
+      }
+
+      let referredBy = "", points = 0;
+      if (referralInput !== "") {
+        const q = query(collection(db, "users"), where("referral", "==", referralInput));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          referredBy = referralInput;
+          points += 100;
+          for (const docSnap of querySnapshot.docs) {
+            const refUserRef = doc(db, "users", docSnap.id);
+            const refData = docSnap.data();
+            const currentPoints = refData.points || 0;
+            await updateDoc(refUserRef, { points: currentPoints + 200 });
+          }
+        } else {
+          alert("Kode referral tidak ditemukan. Pendaftaran tetap dilanjutkan.");
+        }
+      }
+
+      await setDoc(doc(db, "users", uid), {
+        fullName, email, whatsapp, desa, kecamatan, kabupaten, provinsi,
+        referral: ownReferral, referredBy, points,
+      });
+
+      await updateDoc(doc(db, "verifikasi", verifikasiSnap.docs[0].id), { valid: false });
+
+      alert("Pendaftaran berhasil.");
+      window.location.href = "index.html";
+    } catch (error) {
+      console.error("Register error:", error);
+      alert("Gagal daftar: " + error.message);
+    }
+  });
+
+  showStep(currentStep);
+</script>
+
+
+  </body>
+</html>

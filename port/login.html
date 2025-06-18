@@ -1,0 +1,86 @@
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyA6EHE7Kcg9Xpbld9sooIslZtQLLbPgP-o",
+        authDomain: "gmi-vereight.firebaseapp.com",
+        projectId: "gmi-vereight",
+        storageBucket: "gmi-vereight.firebasestorage.app",
+        messagingSenderId: "281469011810",
+        appId: "1:281469011810:web:4151a2a18ee25b8627ce3b"
+      };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("loginForm");
+      const errorBox = document.getElementById("errorBox");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errorBox.textContent = "";
+        const email = form.email.value.trim();
+        const password = form.password.value;
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          window.location.href = "index.html";
+        } catch (error) {
+          errorBox.textContent = "Login gagal: " + error.message;
+        }
+      });
+    });
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-sm">
+    <form id="loginForm" class="bg-white p-8 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800">Masuk</h2>
+      <div id="errorBox" class="text-red-600 text-sm mb-4 min-h-[1.25rem]"></div>
+      <div class="mb-4">
+        <label for="email" class="block text-gray-700 mb-1 font-medium">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          autocomplete="email"
+        />
+      </div>
+      <div class="mb-6">
+        <label for="password" class="block text-gray-700 mb-1 font-medium">Kata Sandi</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Kata Sandi"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          autocomplete="current-password"
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition-colors duration-200 flex items-center justify-center"
+      >
+        <i class="fas fa-sign-in-alt mr-2"></i> Masuk
+      </button>
+    </form>
+    <p class="mt-4 text-center text-gray-700 text-sm">
+      Belum punya akun? 
+      <a href="registrasi.html" class="text-green-600 hover:text-green-800 font-semibold">klik untuk Daftar</a>
+    </p>
+  </div>
+</body>
+</html>
