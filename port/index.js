@@ -1,25 +1,3 @@
-document.addEventListener('deviceready', function () {
-  var permissions = cordova.plugins.permissions;
-  permissions.requestPermissions(
-    [
-      permissions.CAMERA,
-      permissions.ACCESS_FINE_LOCATION,
-      permissions.POST_NOTIFICATIONS
-    ],
-    function (status) {
-      if (status.hasPermission) {
-        console.log("Semua izin diberikan");
-      } else {
-        console.warn("Beberapa izin ditolak");
-      }
-    },
-    function () {
-      console.error("Gagal meminta izin");
-    }
-  );
-});
-
-
 document.addEventListener('deviceready', onDeviceReady, false);
 
 async function onDeviceReady() {
