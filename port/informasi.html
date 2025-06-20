@@ -56,7 +56,7 @@
             <button onclick="window.open('https://wa.me/6281234567890?text=Saya%20ingin%20daftar%20${encodeURIComponent(data.judul)}')" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 transition text-white px-4 py-2 rounded-md font-semibold">
               <i class="fab fa-whatsapp"></i> Daftar Pelatihan
             </button>
-            <button onclick="if(navigator.share){navigator.share({ title: '${data.judul}', text: '${data.copywriting}', url: window.location.href }).catch(()=>{});} else {alert('Fitur share tidak didukung di browser ini.');}" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-md font-semibold">
+            <button onclick="sharePelatihan('${data.judul}', '${data.copywriting}', '${window.location.href}')" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-md font-semibold">
               <i class="fas fa-share-alt"></i> Share
             </button>
           </div>
@@ -95,6 +95,20 @@
       }
     });
   }
+  function sharePelatihan(judul, teks, url) {
+  if (window.plugins && window.plugins.socialsharing) {
+    window.plugins.socialsharing.share(
+      teks + '\n\n' + url,
+      judul,
+      null,
+      url
+    );
+  } else if (navigator.share) {
+    navigator.share({ title: judul, text: teks, url }).catch(() => {});
+  } else {
+    alert("Fitur berbagi tidak tersedia di perangkat ini.");
+  }
+}
   </script>
 </body>
 </html>
